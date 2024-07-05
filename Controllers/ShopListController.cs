@@ -29,4 +29,27 @@ public class ShopListController : Controller
         contentRootPath = webHostEnvironment.ContentRootPath;
     }
 
+    [HttpPost, HttpGet]
+    public ActionResult GetAll([FromQuery] string uuid){
+        var userDir = Path.Combine(webRootPath,uuid);
+        var userDbFile = Path.Combine(userDir,templateDbFile);
+
+        if (!System.IO.File.Exists(userDbFile)){
+            return new JsonResult(new {result="No data"});
+        }
+        
+        ShopListContext slc = new ShopListContext(userDbFile);
+
+        var entries = slc.ShopList;
+        
+        List<ShopList> allItems = new List<ShopList>();
+
+        foreach (ShopList sl in entries.AsParallel<ShopList>()){
+            Console.WriteLine($"{sl.Id} : {sl.Title}");
+            allItems.Add(sl);
+        }
+
+        return new JsonResult(allItems);
+    }
+
 }
