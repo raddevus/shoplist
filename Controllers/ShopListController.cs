@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using shoplist.Models;
 using System.IO;
 
@@ -60,9 +62,11 @@ public class ShopListController : Controller
         var userDir = Path.Combine(webRootPath,uuid);
         var userDbFile = Path.Combine(userDir,templateDbFile);
         // We need to get the OwnerId from sqlstone db using the UUID
-        var sqlstoneDb = Path.Combine(webRootPath,"sqlstone.db");
-        UuidInfoContext uic = new UuidInfoContext(sqlstoneDb);
-        UuidInfo? uinfo =  uic.Find<UuidInfo>(uuid);
+        UuidInfoContext uic = new UuidInfoContext(contentRootPath);
+        
+        var allItems = GetUuids(uic);
+        var uinfo = allItems.FirstOrDefault<UuidInfo>(u => u.Uuid == uuid);
+        
         if (uinfo == null){
             return new JsonResult(new {success=false,error="The supplied UUID is not valid."});
         }
@@ -95,5 +99,10 @@ public class ShopListController : Controller
         }
 
         return new JsonResult(new {success=true,shopList=shopList});
+    }
+
+    public IQueryable<UuidInfo> GetUuids(DbContext dbcontext)
+    {
+        return dbcontext.Set<UuidInfo>();    
     }
 }
