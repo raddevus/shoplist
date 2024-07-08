@@ -40,5 +40,20 @@ function addItemToLocalShopList(){
     var localOption = new Option(title, title, false, true);
 		document.querySelector("#shopListCtrl").add(localOption);
 		document.querySelector("#listTitle").value = "";
-		document.querySelector("#SiteListCtrl").value = clearTextItemKey;
+}
+
+function insertIntoShopList(d){
+	var localOption = new Option(d.title, d.title, false, true);
+		document.querySelector("#shopListCtrl").add(localOption);
+}
+
+function getAllShopLists(){
+	fetch(`${baseUrl}ShopList/GetAll?uuid=${currentUuid}`)
+  	.then(response => response.json())
+    .then(data => {
+		if (!Array.isArray(data)){ return;}
+		console.log(data);
+		data.map(d => insertIntoShopList(d));
+	});
+
 }

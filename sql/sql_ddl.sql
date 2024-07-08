@@ -1,7 +1,8 @@
 CREATE TABLE [ShopList]
 (   [ID] INTEGER NOT NULL PRIMARY KEY,
     [Title] NVARCHAR(250) NOT NULL check(length(Title) <= 250),
-    [Created] NVARCHAR(30) default (datetime('now','localtime')) check(length(Created) <= 30)
+    [Created] NVARCHAR(30) default (datetime('now','localtime')) check(length(Created) <= 30),
+    UNIQUE(Title)
 )
 
 CREATE TABLE [Item]

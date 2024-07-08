@@ -13,6 +13,7 @@ function initApp(){
     console.log("initializing app...");
     loadUuidFromLocalStorage();
     displaySaveMessage();
+    getAllShopLists();
 }
 
 function displaySaveMessage(){
@@ -57,6 +58,7 @@ function deleteUuid(){
     document.querySelector("#uuid").value = "";
     currentUuid = null;
     localStorage.removeItem(lsUuidName);
+    document.querySelector("#shopListCtrl").innerHTML = "";
     window.location.reload();
 }
 
