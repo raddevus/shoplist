@@ -55,5 +55,8 @@ function getAllShopLists(){
 		console.log(data);
 		data.map(d => insertIntoShopList(d));
 	});
+}
 
+function shopListChanged(){
+    console.log(document.querySelector('#shopListCtrl').value);
 }

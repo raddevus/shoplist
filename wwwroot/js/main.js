@@ -14,6 +14,7 @@ function initApp(){
     loadUuidFromLocalStorage();
     displaySaveMessage();
     getAllShopLists();
+    document.querySelector('#shopListCtrl').addEventListener('change', shopListChanged);
 }
 
 function displaySaveMessage(){
