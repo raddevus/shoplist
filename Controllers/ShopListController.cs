@@ -61,34 +61,16 @@ public class ShopListController : Controller
         
         var userDir = Path.Combine(webRootPath,uuid);
         var userDbFile = Path.Combine(userDir,templateDbFile);
-        // We need to get the OwnerId from sqlstone db using the UUID
-        UuidInfoContext uic = new UuidInfoContext(contentRootPath);
-        
-        var allItems = GetUuids(uic);
-        var uinfo = allItems.FirstOrDefault<UuidInfo>(u => u.Uuid == uuid);
-        
-        if (uinfo == null){
+        if (!System.IO.File.Exists(userDbFile)){
             return new JsonResult(new {success=false,error="The supplied UUID is not valid."});
         }
         
         try{
             ShopListContext slc = new ShopListContext(userDbFile);
             // id = 0 indicates a new shopList
-            shopList.OwnerId = uinfo.Id;
             if (shopList.Id == 0){
                 slc.Add(shopList);
             }
-            // else{
-            //     ShopList? currentShopList = slc.Find<JournalEntry>(shopList.Id);
-            //     currentShopList.Note = shopList.Note;
-            //     currentShopList.Title = shopList.Title;
-            //     currentShopList.Updated = DateTime.Now.ToString("yyyy-MM-dd");
-            //     Console.WriteLine($"updated; {currentEntry.Updated}");
-            //     slc.Update(currentShopList);
-            //     shopList = currentShopList;
-            //     Console.WriteLine($"updated; {jentry.Updated}");
-
-            // }
             slc.SaveChanges();
             
         }
