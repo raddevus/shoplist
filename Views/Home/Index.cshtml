@@ -45,4 +45,22 @@
         <input  id="listTitle" type="text" class="form-control" placeholder="List title" aria-label="listTitle" aria-describedby="button-addon2">
         <button class="btn-primary" onclick="addList()">Create List</button>  
     </div>
+    <button class="btn-primary" onclick="addEntry()">Add New Item</button>
+    <div id="listItems">
+        <div id="history-spinner" class="text-center text-success">
+          <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>  
+        <table id="itemListTable" class="table  table-striped">
+            <thead class="table-success">
+                <tr>
+                    <th></th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody id="listitems">
+            </tbody>
+          </table>
+    </div>
 </div>
