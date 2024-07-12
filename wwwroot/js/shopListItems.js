@@ -23,7 +23,7 @@ function addListItems(){
     //         displayUserTaskTable(allListItems, "##listItems");
     //     });
     fakeData = [];
-    fakeData.push({description:"test one"});
+    fakeData.push({description:"test one",id:5});
     displayUserTaskTable(fakeData, "#listItems");
 }
 

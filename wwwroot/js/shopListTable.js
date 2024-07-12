@@ -11,9 +11,9 @@ const ShopListTable = function(listItems){
         let currentId = listItems[x].id;
         allItems.push( React.createElement("tr",{key:x, id:listItems[x].id},
         
-        React.createElement("td",{id:`title-${currentId}`}, listItems[x].title),
-        React.createElement("td",{width:"150px"}, 
-            React.createElement("textarea",{id:`note-${currentId}`},listItems[x].description)),
+        React.createElement("td",{id:`checkbox-${currentId}`}, 
+            React.createElement("input", {type:"checkbox"})),
+        React.createElement("td",{width:"150px",id:`desc-${currentId}`}, listItems[x].description),
         React.createElement("td",{width:"150px"},
             React.createElement("button", {onClick: this.handleSaveClick.bind(this)},"Save")),
         React.createElement("td",{id:`created-${currentId}`,width:"150px"},  new Date(listItems[x].created).yyyymmdd()),
