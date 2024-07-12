@@ -79,3 +79,5 @@ textarea {
 
   #shopListCtrl{width:100%;}
   #ShopListButtons{margin-left:20px;}
+  .strike-out{text-decoration: line-through;
+    opacity: 0.5;};

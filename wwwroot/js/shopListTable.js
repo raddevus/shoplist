@@ -11,8 +11,8 @@ const ShopListTable = function(listItems){
         let currentId = listItems[x].id;
         allItems.push( React.createElement("tr",{key:x, id:listItems[x].id},
         
-            React.createElement("td",{id:`checkbox-${currentId}`}, 
-                React.createElement("input", {type:"checkbox"})),
+            React.createElement("td","", 
+                React.createElement("input", {type:"checkbox",id:`checkbox-${currentId}`, onClick: this.handleCompletedClick.bind(this)})),
             React.createElement("td",{width:"150px",id:`desc-${currentId}`}, listItems[x].description),
             )
        );
@@ -20,7 +20,7 @@ const ShopListTable = function(listItems){
     return allItems.reverse();
 }
 
-function handleSaveClick(e){
+function handleCompletedClick(e){
     
     var entryId = 0;
     if (e.target.type == undefined){
@@ -32,7 +32,15 @@ function handleSaveClick(e){
         console.log(`e: ${e.target.parentElement.parentElement.id}`);
         entryId = e.target.parentElement.parentElement.id;
     }
+    
     console.log(`entryId: ${entryId}`);
+    if (document.querySelector(`#checkbox-${entryId}`).checked){
+        document.querySelector(`#desc-${entryId}`).classList.add("strike-out");
+    }
+    else{
+        document.querySelector(`#desc-${entryId}`).classList.remove("strike-out");
+    }
+    return;
     var currentTitleText = document.querySelector(`#title-${entryId}`).textContent;
     var titleText = prompt("Please enter a title for the Journal Entry", currentTitleText);
     
