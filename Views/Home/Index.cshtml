@@ -42,10 +42,13 @@
     <select id="shopListCtrl" size="10"></select>
 
     <div class="input-group mb-3">
-        <input  id="listTitle" type="text" class="form-control" placeholder="List title" aria-label="listTitle" aria-describedby="button-addon2">
-        <button class="btn-primary" onclick="addList()">Create List</button>  
+        <input  id="listTitle" type="text" class="form-control" placeholder="List title" aria-label="listTitle" aria-describedby="createListBtn">
+        <button id="createListBtn" class="btn-primary" onclick="addList()">Create List</button>  
     </div>
-    <button class="btn-primary" onclick="addEntry()">Add New Item</button>
+    <div class="input-group mb-3">
+        <input  id="itemInput" type="text" class="form-control" placeholder="list item" aria-label="listTitle" aria-describedby="newItemBtn">
+        <button id="newItemBtn" class="btn-primary" onclick="addListItem()">Add New Item</button>
+    </div>
     
     <div id="history-spinner" class="text-center text-success">
         <div class="spinner-border" role="status">

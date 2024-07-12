@@ -27,14 +27,21 @@ function addListItems(){
     displayUserTaskTable(fakeData, "#listItems");
 }
 
-function addItem(){
+function addListItem(){
     if (currentUuid == undefined || currentUuid == null || currentUuid == ""){
         alert("You need to register a UUID to create and save data.");
         return;
     }
     // checking to make sure we don't delete existing entries
     if (localListItems.length == undefined){ localListItems=[];}
-    localListItems.push({id:0,title:"",note:null,created: new Date().yyyymmdd(),updated:null});
+    var desc = document.querySelector("#itemInput").value;
+    if (desc == undefined || desc == ""){
+        alert("Please type a description for your item & try again.");
+        return;
+    }
+    document.querySelector("#itemInput").value = "";
+    document.querySelector("#itemInput").focus();
+    localListItems.push({id:0,description:desc});
     
     displayUserTaskTable(localListItems, "#listItems");
 }
