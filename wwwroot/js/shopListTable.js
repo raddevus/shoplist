@@ -13,7 +13,8 @@ const ShopListTable = function(listItems){
         
             React.createElement("td","", 
                 React.createElement("input", {type:"checkbox",id:`checkbox-${currentId}`, onClick: this.handleCompletedClick.bind(this)})),
-            React.createElement("td",{width:"150px",id:`desc-${currentId}`}, listItems[x].description),
+            React.createElement("td","",
+                React.createElement("label",{id:`desc-${currentId}`,for:`checkbox-${currentId}`}, listItems[x].description)),
             )
        );
     }
