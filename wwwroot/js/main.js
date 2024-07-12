@@ -15,6 +15,17 @@ function initApp(){
     displaySaveMessage();
     getAllShopLists();
     document.querySelector('#shopListCtrl').addEventListener('change', shopListChanged);
+    setDefaultButton();
+}
+
+function setDefaultButton(){
+    var itemInputCtrl = document.querySelector("#itemInput");
+    itemInputCtrl.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.querySelector("#newItemBtn").click();
+    }
+    });
 }
 
 function displaySaveMessage(){
