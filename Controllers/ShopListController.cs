@@ -83,8 +83,37 @@ public class ShopListController : Controller
         return new JsonResult(new {success=true,shopList=shopList});
     }
 
-    public IQueryable<UuidInfo> GetUuids(DbContext dbcontext)
+    [HttpPost]
+    public ActionResult SaveItem([FromForm] string uuid, [FromForm] string title, [FromForm] string description){
+        var userDir = Path.Combine(webRootPath,uuid);
+        var userDbFile = Path.Combine(userDir,templateDbFile);
+        ListItem li = new ListItem();
+        if (!System.IO.File.Exists(userDbFile)){
+            return new JsonResult(new {success=false,error="The supplied UUID is not valid."});
+        }
+        ShopListContext slc = new ShopListContext(userDbFile);
+        try{
+           var allLists = GetShopLists(slc);
+            var currentShopList = allLists.FirstOrDefault<ShopList>(l => l.Title == title);
+
+            if (currentShopList == null){
+                return new JsonResult(new {success=false,error="The supplied List Title is not valid."});
+            }
+            
+            li.Description = description;
+            li.ShopListId = currentShopList.Id;
+            ListItemContext lic = new ListItemContext(userDbFile);
+            lic.Add(li);
+            lic.SaveChanges();
+        }
+        catch(Exception ex){
+            return new JsonResult(new {success=false,error=$"Couldn't complete transaction. {ex.Message}"});
+        }
+        return new JsonResult(new {success=true,listItem=li});
+    }
+
+    public IQueryable<ShopList> GetShopLists(DbContext dbcontext)
     {
-        return dbcontext.Set<UuidInfo>();    
+        return dbcontext.Set<ShopList>();
     }
 }
