@@ -10,13 +10,28 @@ function displayListItems(){
     let elx = document.createElement("tbody");
     elx.setAttribute("id","listItems");
     at.append(elx);
+    var title = document.querySelector("#shopListCtrl").value;
+    let postData = new FormData();
+    postData.append("uuid", currentUuid);
+    postData.append("title",title);
 
-    //let title = document.querySelector("#itemInput");
-    //let description = document.querySelector("#")
+    fetch(`${baseUrl}ShopList/GetListItems`, {
+        method: 'POST',
+        body: postData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            data.allListItems.map(i => {
+                console.log(i);
+                localListItems.push(i);
+            });
+                
+            displayUserTaskTable(localListItems, "#listItems");
+        });
     
-    fakeData = [];
-    fakeData.push({description:"test one",id:5});
-    displayUserTaskTable(fakeData, "#listItems");
+    // fakeData = [];
+    // fakeData.push({description:"test one",id:5});
+    // displayUserTaskTable(fakeData, "#listItems");
 }
 
 function addListItem(){

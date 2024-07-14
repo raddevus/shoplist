@@ -54,7 +54,10 @@ function getAllShopLists(){
 		if (!Array.isArray(data)){ return;}
 		console.log(data);
 		data.map(d => insertIntoShopList(d));
-	});
+	})
+	.then(data => {
+		displayListItems();
+	})
 }
 
 function shopListChanged(){

@@ -112,8 +112,43 @@ public class ShopListController : Controller
         return new JsonResult(new {success=true,listItem=li});
     }
 
+[HttpPost]
+    public ActionResult GetListItems([FromForm] string uuid, [FromForm] string title){
+        var userDir = Path.Combine(webRootPath,uuid);
+        var userDbFile = Path.Combine(userDir,templateDbFile);
+        ListItem li = new ListItem();
+        if (!System.IO.File.Exists(userDbFile)){
+            return new JsonResult(new {success=false,error="The supplied UUID is not valid."});
+        }
+         ShopListContext slc = new ShopListContext(userDbFile);
+        try{
+           var allLists = GetShopLists(slc);
+            var currentShopList = allLists.FirstOrDefault<ShopList>(l => l.Title == title);
+
+            if (currentShopList == null){
+                return new JsonResult(new {success=false,error="The supplied List Title is not valid."});
+            }
+            ListItemContext lic = new ListItemContext(userDbFile);
+            var listItems = GetListItems(lic);
+            if (listItems == null){
+                 return new JsonResult(new {success=false,error="The supplied List Title is not valid."});
+            }
+            //var allListItems = listItems.Where<ListItem>(li => li.ShopListId == currentShopList.Id).ToList();
+            var allListItems = listItems?.Where<ListItem>(i => i.ShopListId == currentShopList.Id);
+            return new JsonResult(new {success=true,allListItems=allListItems});
+        }
+        catch (Exception ex){
+            return new JsonResult(new {success=false,error=$"Failed to retrieve all list items. {ex.Message}"});
+        }
+    }
+
+
     public IQueryable<ShopList> GetShopLists(DbContext dbcontext)
     {
         return dbcontext.Set<ShopList>();
+    }
+
+    public IQueryable<ListItem> GetListItems(DbContext dbcontext){
+        return dbcontext.Set<ListItem>();
     }
 }
