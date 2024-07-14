@@ -8,7 +8,7 @@ CREATE TABLE [ShopList]
 CREATE TABLE [ListItem]
 (   [ID] INTEGER NOT NULL PRIMARY KEY,
     [ShopListId] INTEGER NOT NULL,
-    [Description] NVARCHAR(500) NOT NULL check(length(Title) <= 500),
+    [Description] NVARCHAR(500) NOT NULL check(length(Description) <= 500),
     [Created] NVARCHAR(30) default (datetime('now','localtime')) check(length(Created) <= 30),
     [Completed] BOOLEAN default(0) check(Completed IN (0, 1))
 )
