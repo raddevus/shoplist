@@ -1,6 +1,6 @@
 let localListItems = [];
 
-function addListItems(){
+function displayListItems(){
 
     let at = document.querySelector("#itemListTable");
 
@@ -10,18 +10,10 @@ function addListItems(){
     let elx = document.createElement("tbody");
     elx.setAttribute("id","listItems");
     at.append(elx);
+
+    //let title = document.querySelector("#itemInput");
+    //let description = document.querySelector("#")
     
-    // let postData = new FormData();
-    // postData.append("uuid", currentUuid);
-    // fetch(`${baseUrl}JournalEntry/GetAll`, {
-    //     method: 'POST',
-    //     body: postData,
-    //     })
-    //     .then(response => response.json())
-    //     .then(allListItems => {
-    //         localListItems = allListItems;            
-    //         displayUserTaskTable(allListItems, "##listItems");
-    //     });
     fakeData = [];
     fakeData.push({description:"test one",id:5});
     displayUserTaskTable(fakeData, "#listItems");
@@ -39,11 +31,27 @@ function addListItem(){
         alert("Please type a description for your item & try again.");
         return;
     }
+
+    var title = document.querySelector("#shopListCtrl").value;
     document.querySelector("#itemInput").value = "";
     document.querySelector("#itemInput").focus();
-    localListItems.push({id:0,description:desc});
     
-    displayUserTaskTable(localListItems, "#listItems");
+    let postData = new FormData();
+    postData.append("uuid", currentUuid);
+    postData.append("title",title);
+    postData.append("description",desc);
+    fetch(`${baseUrl}ShopList/SaveItem`, {
+        method: 'POST',
+        body: postData,
+        })
+        .then(response => response.json())
+        .then(listItem => {
+            localListItems.push(listItem.listItem);            
+            displayUserTaskTable(localListItems, "#listItems");
+        });
+    
+    //localListItems.push({id:0,description:desc});
+    //displayUserTaskTable(localListItems, "#listItems");
 }
 
 function displayUserTaskTable(listItems, rootElement){
