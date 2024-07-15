@@ -40,6 +40,7 @@ function addItemToLocalShopList(){
     var localOption = new Option(title, title, false, true);
 		document.querySelector("#shopListCtrl").add(localOption);
 		document.querySelector("#listTitle").value = "";
+		shopListChanged();
 }
 
 function insertIntoShopList(d){
@@ -62,4 +63,6 @@ function getAllShopLists(){
 
 function shopListChanged(){
     console.log(document.querySelector('#shopListCtrl').value);
+	localListItems = [];
+	displayListItems();
 }
