@@ -112,7 +112,7 @@ public class ShopListController : Controller
         return new JsonResult(new {success=true,listItem=li});
     }
 
-[HttpPost]
+    [HttpPost]
     public ActionResult GetListItems([FromForm] string uuid, [FromForm] string title){
         var userDir = Path.Combine(webRootPath,uuid);
         var userDbFile = Path.Combine(userDir,templateDbFile);
@@ -133,7 +133,6 @@ public class ShopListController : Controller
             if (listItems == null){
                  return new JsonResult(new {success=false,error="The supplied List Title is not valid."});
             }
-            //var allListItems = listItems.Where<ListItem>(li => li.ShopListId == currentShopList.Id).ToList();
             var allListItems = listItems?.Where<ListItem>(i => i.ShopListId == currentShopList.Id);
             return new JsonResult(new {success=true,allListItems=allListItems});
         }
@@ -142,6 +141,41 @@ public class ShopListController : Controller
         }
     }
 
+    [HttpPost]
+    public ActionResult SetListItemComplete([FromForm] string uuid, [FromForm] string title, [FromForm] int itemId){
+        var userDir = Path.Combine(webRootPath,uuid);
+        var userDbFile = Path.Combine(userDir,templateDbFile);
+        ListItem li = new ListItem();
+        if (!System.IO.File.Exists(userDbFile)){
+            return new JsonResult(new {success=false,error="The supplied UUID is not valid."});
+        }
+         ShopListContext slc = new ShopListContext(userDbFile);
+        try{
+           var allLists = GetShopLists(slc);
+            var currentShopList = allLists.FirstOrDefault<ShopList>(l => l.Title == title);
+
+            if (currentShopList == null){
+                return new JsonResult(new {success=false,error="The supplied List Title is not valid."});
+            }
+
+            ListItemContext lic = new ListItemContext(userDbFile);
+            var listItems = GetListItems(lic);
+            var item = listItems.FirstOrDefault<ListItem>(i => i.Id == itemId);
+            if (listItems == null){
+                 return new JsonResult(new {success=false,error="The supplied list item is not valid."});
+            }
+            if (item != null){
+                item.Completed = true;
+                lic.Update(item);
+                lic.SaveChanges();
+            }
+            
+            return new JsonResult(new {success=true,listItem=item});    
+        }
+        catch (Exception ex){
+            return new JsonResult(new {success=false,error=$"Failed to set item to completed status. {ex.Message}"});
+        }
+    }
 
     public IQueryable<ShopList> GetShopLists(DbContext dbcontext)
     {
