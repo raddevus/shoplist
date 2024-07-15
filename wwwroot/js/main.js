@@ -2,7 +2,7 @@
 var currentUuid = null;
 var lsUuidName = "currentUuid";
 var devUrl = "http://localhost:5177/";  // make sure to include trailing /
-var prodUrl = "https://newlibre.com/journal/";
+var prodUrl = "https://newlibre.com/shoplist/";
 var baseUrl = devUrl;
 var alertInterval = null;
 
