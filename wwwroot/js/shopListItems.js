@@ -79,6 +79,9 @@ function displayUserTaskTable(listItems, rootElement){
         document.querySelector(rootElement),
         hideWaitCursor("#history-spinner")
     );
+    listItems.map(li => {
+        if (li.completed) {setAsCompleted(li.id);}
+    });
 }
 
 

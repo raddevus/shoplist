@@ -7,7 +7,6 @@ const ShopListTable = function(listItems){
      let allItems = [];
 
     for (let x=0; x < listItems.length;x++){
-        console.log(`journalEntries[${x}].note: ${listItems[x].note}`);
         let currentId = listItems[x].id;
         allItems.push( React.createElement("tr",{key:x, id:listItems[x].id},
         
@@ -17,6 +16,7 @@ const ShopListTable = function(listItems){
                 React.createElement("label",{id:`desc-${currentId}`,for:`checkbox-${currentId}`}, listItems[x].description)),
             )
        );
+       
     }
     return allItems.reverse();
 }
@@ -34,20 +34,22 @@ function handleCompletedClick(e){
         itemId = e.target.parentElement.parentElement.id;
     }
     
-    console.log(`entryId: ${itemId}`);
-    if (document.querySelector(`#checkbox-${itemId}`).checked){
-        document.querySelector(`#desc-${itemId}`).classList.add("strike-out");
-    }
-    else{
-        document.querySelector(`#desc-${itemId}`).classList.remove("strike-out");
-    }
+    console.log(`itemId: ${itemId}`);
+    setCompletedStyle(itemId);
     
     var title = document.querySelector("#shopListCtrl").value;
+
+    // toggles the completed value
+    var completed = document.querySelector(`#checkbox-${itemId}`).checked;
+    console.log(`completed: ${completed}`);
 
     var formData = new FormData();
     formData.append("uuid",currentUuid);
     formData.append("itemId",itemId);
+    formData.append("completed", completed);
     formData.append("title",title);
+
+    
 
     fetch(`${baseUrl}ShopList/SetListItemComplete`, {
         method: 'POST',
@@ -56,4 +58,18 @@ function handleCompletedClick(e){
         .then(response => response.json())
         .then(data => console.log(data));
     
+}
+
+function setAsCompleted(itemId){
+    document.querySelector(`#checkbox-${itemId}`).checked = true;
+    document.querySelector(`#desc-${itemId}`).classList.add("strike-out");
+}
+
+function setCompletedStyle(itemId){
+    if (document.querySelector(`#checkbox-${itemId}`).checked){
+        document.querySelector(`#desc-${itemId}`).classList.add("strike-out");
+    }
+    else{
+        document.querySelector(`#desc-${itemId}`).classList.remove("strike-out");
+    }
 }

@@ -142,7 +142,7 @@ public class ShopListController : Controller
     }
 
     [HttpPost]
-    public ActionResult SetListItemComplete([FromForm] string uuid, [FromForm] string title, [FromForm] int itemId){
+    public ActionResult SetListItemComplete([FromForm] string uuid, [FromForm] string title, [FromForm] int itemId, [FromForm] bool completed){
         var userDir = Path.Combine(webRootPath,uuid);
         var userDbFile = Path.Combine(userDir,templateDbFile);
         ListItem li = new ListItem();
@@ -165,7 +165,7 @@ public class ShopListController : Controller
                  return new JsonResult(new {success=false,error="The supplied list item is not valid."});
             }
             if (item != null){
-                item.Completed = true;
+                item.Completed = completed;
                 lic.Update(item);
                 lic.SaveChanges();
             }
