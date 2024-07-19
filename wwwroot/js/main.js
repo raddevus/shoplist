@@ -5,8 +5,11 @@ var devUrl = "http://localhost:5177/";  // make sure to include trailing /
 var prodUrl = "https://newlibre.com/shoplist/";
 var baseUrl = devUrl;
 var alertInterval = null;
+var isFullScreen = false;
 
 document.querySelector("body").addEventListener("load", initApp());
+
+document.querySelector("#fullScreenButton").addEventListener("click",setFullScreen);
 
 
 function initApp(){
@@ -27,6 +30,21 @@ function setDefaultButton(){
     }
     });
 }
+
+function setFullScreen(){
+    if (!isFullScreen){
+    //document.querySelector("#currentShopList").classList.add("fullScreen");
+    //document.querySelector("#currentShopList").classList.add("mh-100");
+    //document.querySelector("#currentShopList").classList.add("mw-100");
+    document.querySelector("#currentShopList").classList.value = '';
+    document.querySelector("#currentShopList").classList.add("fullScreen");
+    }
+    else{
+      document.querySelector("#currentShopList").classList.remove("fullScreen");
+      
+    }
+    isFullScreen = !isFullScreen;
+  }
 
 function displaySaveMessage(){
     var shouldDisplay = localStorage.getItem("shouldDispalySaveMsg");

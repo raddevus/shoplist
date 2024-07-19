@@ -45,25 +45,34 @@
         <input  id="listTitle" type="text" class="form-control" placeholder="List title" aria-label="listTitle" aria-describedby="createListBtn">
         <button id="createListBtn" class="btn-primary" onclick="addList()">Create List</button>  
     </div>
-    <div class="input-group mb-3">
-        <input  id="itemInput" type="text" class="form-control" placeholder="list item" aria-label="listTitle" aria-describedby="newItemBtn">
-        <button id="newItemBtn" class="btn-primary" onclick="addListItem()">Add New Item</button>
-    </div>
     
     <div id="history-spinner" class="text-center text-success">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>  
-    <table id="itemListTable" class="table  table-striped">
-        <thead class="table-success">
-            <tr>
-                <th class="col-1"></th>
-                <th class="col-11">Description</th>
-            </tr>
-        </thead>
-        <tbody id="listitems">
-        </tbody>
-        </table>
 
+    <div id="currentShopList">
+        <div class="input-group mb-3">
+            <input  id="itemInput" type="text" class="form-control" placeholder="list item" aria-label="listTitle" aria-describedby="newItemBtn">
+            <button id="newItemBtn" class="btn-primary" onclick="addListItem()">Add New Item</button>
+        </div>
+
+        <table id="itemListTable" class="table  table-striped">
+            <thead class="table-success">
+                <tr>
+                    <th class="col-1"></th>
+                    <th class="col-11">Description</th>
+                    <th><button id="fullScreenButton" type="button" class="btn btn-success btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-angle-expand" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707"></path>
+                        </svg>
+                        </button>
+                      </th>
+                </tr>
+            </thead>
+            <tbody id="listitems">
+            </tbody>
+        </table>
+    </div>
 </div>
