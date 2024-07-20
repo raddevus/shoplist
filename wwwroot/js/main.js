@@ -41,8 +41,12 @@ function setDefaultButton(){
     });
 }
 
-function handleItemMessage(user, msg){
-    console.log(`user: ${user}, msg:${msg}`);
+function handleItemMessage(user, listName){
+    console.log(`user: ${user}, listName:${listName}`);
+    var currentSelectedList = document.querySelector("#shopListCtrl").value;
+    if (currentUuid == user && currentSelectedList == listName){
+        shopListChanged();
+    }
 }
 
 function setFullScreen(){

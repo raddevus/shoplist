@@ -4,9 +4,9 @@ namespace shoplist.Hubs
 {
     public class ItemHub : Hub
     {
-        public async Task SendItem(string user, string message)
+        public async Task SendItem(string user, string listName)
         {
-            await Clients.Others.SendAsync("ReceiveMessage", user, message);
+            await Clients.Others.SendAsync("ReceiveMessage", user, listName);
         }
     }
 }

@@ -61,8 +61,9 @@ function addListItem(){
         })
         .then(response => response.json())
         .then(listItem => {
+            console.log(`title: ${title}`);
             localListItems.push(listItem.listItem);
-            connection.invoke("SendItem", currentUuid, "it works")
+            connection.invoke("SendItem", currentUuid, title)
             .catch(function (error){
                 return console.error(error.toString());
             });   
