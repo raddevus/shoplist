@@ -7,6 +7,8 @@ var baseUrl = devUrl;
 var alertInterval = null;
 var isFullScreen = false;
 
+var connection = new signalR.HubConnectionBuilder().withUrl("/itemHub").build();
+
 document.querySelector("body").addEventListener("load", initApp());
 
 document.querySelector("#fullScreenButton").addEventListener("click",setFullScreen);
@@ -19,6 +21,14 @@ function initApp(){
     getAllShopLists();
     document.querySelector('#shopListCtrl').addEventListener('change', shopListChanged);
     setDefaultButton();
+    connection.on("ReceiveMessage", handleItemMessage);
+
+    connection.start().then(function () {
+            console.log("Hub is started.");
+        }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
 }
 
 function setDefaultButton(){
@@ -31,13 +41,14 @@ function setDefaultButton(){
     });
 }
 
+function handleItemMessage(user, msg){
+    console.log(`user: ${user}, msg:${msg}`);
+}
+
 function setFullScreen(){
     if (!isFullScreen){
-    //document.querySelector("#currentShopList").classList.add("fullScreen");
-    //document.querySelector("#currentShopList").classList.add("mh-100");
-    //document.querySelector("#currentShopList").classList.add("mw-100");
-    document.querySelector("#currentShopList").classList.value = '';
-    document.querySelector("#currentShopList").classList.add("fullScreen");
+        document.querySelector("#currentShopList").classList.value = '';
+        document.querySelector("#currentShopList").classList.add("fullScreen");
     }
     else{
       document.querySelector("#currentShopList").classList.remove("fullScreen");

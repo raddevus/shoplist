@@ -61,7 +61,11 @@ function addListItem(){
         })
         .then(response => response.json())
         .then(listItem => {
-            localListItems.push(listItem.listItem);            
+            localListItems.push(listItem.listItem);
+            connection.invoke("SendItem", currentUuid, "it works")
+            .catch(function (error){
+                return console.error(error.toString());
+            });   
             displayUserTaskTable(localListItems, "#listItems");
         });
     
