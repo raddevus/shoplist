@@ -35,7 +35,8 @@ function handleCompletedClick(e){
     }
     
     console.log(`itemId: ${itemId}`);
-    setCompletedStyle(itemId);
+    var isCompleted = document.querySelector(`#checkbox-${itemId}`).checked;
+    setCompletedStyle(itemId,isCompleted);
     
     var title = document.querySelector("#shopListCtrl").value;
 
@@ -56,7 +57,12 @@ function handleCompletedClick(e){
         body: formData,
       })
         .then(response => response.json())
-        .then(data => console.log(data));
+        .then(data => console.log(data))
+        .then(data => {
+            console.log("Invoking...");
+            // title is the title of the list aka listName
+            connection.invoke("SendCompletedItem", currentUuid, title, String(itemId),completed);
+        });
     
 }
 
@@ -65,11 +71,13 @@ function setAsCompleted(itemId){
     document.querySelector(`#desc-${itemId}`).classList.add("strike-out");
 }
 
-function setCompletedStyle(itemId){
-    if (document.querySelector(`#checkbox-${itemId}`).checked){
+function setCompletedStyle(itemId, isCompleted){
+    if (isCompleted){
         document.querySelector(`#desc-${itemId}`).classList.add("strike-out");
+        document.querySelector(`#checkbox-${itemId}`).checked = true;
     }
     else{
         document.querySelector(`#desc-${itemId}`).classList.remove("strike-out");
+        document.querySelector(`#checkbox-${itemId}`).checked = false;
     }
 }

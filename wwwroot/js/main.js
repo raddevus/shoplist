@@ -22,6 +22,7 @@ function initApp(){
     document.querySelector('#shopListCtrl').addEventListener('change', shopListChanged);
     setDefaultButton();
     connection.on("ReceiveMessage", handleItemMessage);
+    connection.on("SetItemCompleted", handleItemCompleted);
 
     connection.start().then(function () {
             console.log("Hub is started.");
@@ -46,6 +47,14 @@ function handleItemMessage(user, listName){
     var currentSelectedList = document.querySelector("#shopListCtrl").value;
     if (currentUuid == user && currentSelectedList == listName){
         shopListChanged();
+    }
+}
+
+function handleItemCompleted(user, listName, itemId, isCompleted){
+    console.log(`itemId: ${itemId} listName: ${listName}, user: ${user}`);
+    var currentSelectedList = document.querySelector("#shopListCtrl").value;
+    if (currentUuid == user && currentSelectedList == listName){
+        setCompletedStyle(`${itemId}`,isCompleted);
     }
 }
 
