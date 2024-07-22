@@ -50,7 +50,6 @@ function loadLastSelectedShopList(){
     console.log(`currentShopList: ${currentShopList}`);
     if (currentShopList != null){
         document.querySelector("#shopListCtrl").value = currentShopList;
-        shopListChanged();
     }
 }
 
