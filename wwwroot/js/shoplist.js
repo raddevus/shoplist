@@ -55,6 +55,8 @@ function getAllShopLists(){
 		if (!Array.isArray(data)){ return;}
 		console.log(data);
 		data.map(d => insertIntoShopList(d));
+		isAppInitComplete = true;
+		loadLastSelectedShopList();
 	})
 	.then(data => {
 		displayListItems();
@@ -62,7 +64,26 @@ function getAllShopLists(){
 }
 
 function shopListChanged(){
-    console.log(document.querySelector('#shopListCtrl').value);
+	// only want to do this if the app is not initializing
+	if (isAppInitComplete){
+		console.log("### shoplistchanged ####")
+		currentShopList = document.querySelector('#shopListCtrl').value;
+		console.log(`currentShopList ## ${currentShopList}`);
+		saveCurrentShopListToLocalStorage(currentShopList);
+	}
 	localListItems = [];
 	displayListItems();
+}
+
+function saveCurrentShopListToLocalStorage(shopListName){
+	localStorage.setItem("currentShopList", btoa(shopListName));
+}
+
+function getLastSelectedShopListFromLocalStorage(){
+	var b64ShopList = localStorage.getItem("currentShopList");
+	if (b64ShopList != null){
+		return atob(b64ShopList);
+	}
+	// returns null if not found
+	return b64ShopList;
 }

@@ -1,9 +1,6 @@
 const saveItem = "ListItem/Save"
 
 const ShopListTable = function(listItems){
-
-    console.log(listItems[0]);
-    
      let allItems = [];
 
     for (let x=0; x < listItems.length;x++){

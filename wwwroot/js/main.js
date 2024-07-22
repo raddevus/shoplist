@@ -6,6 +6,8 @@ var prodUrl = "https://newlibre.com/shoplist/";
 var baseUrl = devUrl;
 var alertInterval = null;
 var isFullScreen = false;
+var currentShopList = null;
+var isAppInitComplete = false;
 
 // Keep in mind that the .withURL( ) URL needs to be changed to the location on
 // your production server -- https://newlibre.com/shoplist/itemHub
@@ -31,7 +33,6 @@ function initApp(){
         }).catch(function (err) {
         return console.error(err.toString());
     });
-
 }
 
 function setDefaultButton(){
@@ -42,6 +43,15 @@ function setDefaultButton(){
         document.querySelector("#newItemBtn").click();
     }
     });
+}
+
+function loadLastSelectedShopList(){
+    currentShopList = getLastSelectedShopListFromLocalStorage();
+    console.log(`currentShopList: ${currentShopList}`);
+    if (currentShopList != null){
+        document.querySelector("#shopListCtrl").value = currentShopList;
+        shopListChanged();
+    }
 }
 
 function handleItemMessage(user, listName){
