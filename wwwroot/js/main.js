@@ -11,7 +11,7 @@ var isAppInitComplete = false;
 
 // Keep in mind that the .withURL( ) URL needs to be changed to the location on
 // your production server -- https://newlibre.com/shoplist/itemHub
-var connection = new signalR.HubConnectionBuilder().withUrl("/itemHub").build();
+var connection = new signalR.HubConnectionBuilder().withUrl("shoplist/itemHub").build();
 
 document.querySelector("body").addEventListener("load", initApp());
 
