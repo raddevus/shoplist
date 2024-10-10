@@ -26,9 +26,9 @@ public class ShopListController : Controller
     {
         _logger = logger;
         templateDbFile = _configuration["templateDbFile"];
-        Console.WriteLine($"content rootPath: {webHostEnvironment.WebRootPath}");
         webRootPath = webHostEnvironment.WebRootPath;
         contentRootPath = webHostEnvironment.ContentRootPath;
+        Console.WriteLine($"webrootPath: {webRootPath} - contentRootPath: {contentRootPath}");
     }
 
     [HttpPost, HttpGet]

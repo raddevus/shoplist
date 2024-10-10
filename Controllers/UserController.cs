@@ -11,6 +11,8 @@ public class UserController : Controller
     private string webRootPath;
     private string contentRootPath;
     private readonly IConfiguration _config;
+
+    private readonly String tempDirectory = "temp";
     
     // templateDbFile is your sqlite3 db which contains
     // all of your tables for your custom solution.
@@ -25,9 +27,9 @@ public class UserController : Controller
     {
         _logger = logger;
         templateDbFile = _configuration["templateDbFile"];
-        Console.WriteLine($"content rootPath: {webHostEnvironment.WebRootPath}");
         webRootPath = webHostEnvironment.WebRootPath;
         contentRootPath = webHostEnvironment.ContentRootPath;
+        Console.WriteLine($"webrootPath: {webRootPath} - contentRootPath: {contentRootPath}");
     }
 
     [HttpPost]
@@ -73,9 +75,13 @@ public class UserController : Controller
     public ActionResult DownloadSqliteDb([FromQuery] String uuid)
     {
         var userDir = Path.Combine(webRootPath,uuid);
-        var journalDb = Path.Combine(userDir,templateDbFile);
-        Console.WriteLine(journalDb);
-        return new PhysicalFileResult(journalDb, "application/x-sqlite3");
+        var tempPath = Path.Combine(webRootPath,tempDirectory);
+        var shopListDb = Path.Combine(userDir,templateDbFile);
+        Console.WriteLine(shopListDb);
+        var tempDbFile = Path.Combine(tempPath,Path.GetFileName(Path.GetTempFileName()));
+        Console.WriteLine(tempDbFile);
+        System.IO.File.Copy(shopListDb, tempDbFile);
+        return new PhysicalFileResult(tempDbFile, "application/x-sqlite3");
     }
 
     [HttpPost]
